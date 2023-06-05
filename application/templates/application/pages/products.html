@@ -1,0 +1,55 @@
+{% extends 'application/base.html' %}
+{% block content %}
+
+<div class="container">
+  <div class="d-flex justify-content-center my-2">
+    
+
+    <a href={% url 'create-product' %} type="button" class="btn" style="background-color: #5E0129; color:aliceblue;">
+      Ajouter un Produit
+    </a>
+
+  </div>
+  <table id="productsTable" class="table table-striped " style="width: 100%">
+    <thead>
+      <tr>
+        <th>Id</th>
+        <th>Reference</th> 
+        <th>Désignation</th>
+        <th>Categorie</th>
+        <th>Stock initial</th>
+        <th>Action</th>
+      </tr>
+    </thead>
+  </table>
+</div>
+
+<script>
+  $(document).ready(function () {
+
+    var table = $("#productsTable").DataTable({
+      processing: true,
+      serverSide: true,
+      ajax: "{% url 'products_list_json' %}",
+      columns: [{ data: "id" },{ data: "reference" }, { data: "name" },  { data: "category",searchable:false },{ data: "stinitial" }, { data: "action",searchable:false }],
+      language: {
+        processing: `Patientez...`,
+      },
+      columnDefs: [
+        {
+          targets: -1, // Add column to the end of the table
+          data: null, // Use the row data
+          defaultContent: "<button>Modifier</button><button>Supprimer</button>",
+          // Render function to create the action buttons
+          render: function (data, type, row, meta) {
+            return `<a href='/products/edit/${row.id}' class='btn' style = "background-color: #D2B15B; color: antiquewhite;">Modifier</a> 
+            <button onclick="deleteHandler('/products/delete/${row.id}')" class='btn'style = "background-color: #5E0129; color: antiquewhite;">Supprimer</button>`;
+          },
+        },
+      ],
+    });
+
+  });
+</script>
+
+{% endblock content %}

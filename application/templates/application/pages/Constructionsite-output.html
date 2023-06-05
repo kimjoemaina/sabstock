@@ -1,0 +1,68 @@
+{% extends 'application/base.html' %}
+{% block content %}
+
+<div class="container">
+  <div class="d-flex justify-content-center my-2">
+  </div>
+   <input type="text" id="myInput" onkeyup="myFunction()" placeholder="Chercher par noms.." style="margin-bottom: 15px;">
+  <table id="outputsTable" class="table table-striped" style="width: 100%">
+    <thead  style="background-color: #7F123E;">
+      <tr style="color: aliceblue;">
+        
+        <th>Produit</th>
+        <th>Date</th>
+        <th>Unité</th>
+        <th>Quantité sortie</th>
+        <th>Niveau</th>
+        <th>Appartement</th>
+        <th>N° Bon de sortie</th>
+        <th>Chantier</th>
+        <th>Code</th>
+         
+      </tr>
+    </thead>
+     <tbody>
+     {% for i in site_output_data %}
+     <tr>
+      
+       <td>{{ i.product }}</td>
+       <td>{{ i.date }}</td>
+       <td>{{ i.unity }}</td>
+       <td>{{ i.qty_output }}</td>
+       <td>{{ i.level }}</td>
+       <td>{{ i.appartment }}</td>
+       <td>{{ i.exit_coupon }}</td>
+       <td>{{ i.construction_site }}</td>
+       <td>{{ i.id }}</td>
+     </tr>
+     {% endfor %}
+     </tbody>
+  </table>
+  <a href={% url 'export-outputs' %} type="button" class="btn mx-1" style="background-color: #5E0129; color:aliceblue;">
+    Export
+  </a>
+</div>
+<script>
+  function myFunction() {
+    // Declare variables
+    var input, filter, table, tr, td, i, txtValue;
+    input = document.getElementById("myInput");
+    filter = input.value.toUpperCase();
+    table = document.getElementById("outputsTable");
+    tr = table.getElementsByTagName("tr");
+  
+    // Loop through all table rows, and hide those who don't match the search query
+    for (i = 0; i < tr.length; i++) {
+      td = tr[i].getElementsByTagName("td")[0];
+      if (td) {
+        txtValue = td.textContent || td.innerText;
+        if (txtValue.toUpperCase().indexOf(filter) > -1) {
+          tr[i].style.display = "";
+        } else {
+          tr[i].style.display = "none";
+        }
+      }
+    }
+  }
+  </script>
+{% endblock content %}

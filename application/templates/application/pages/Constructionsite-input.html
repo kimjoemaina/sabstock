@@ -1,0 +1,70 @@
+{% extends 'application/base.html' %}
+{% block content %}
+
+<div class="container">
+  <div class="d-flex justify-content-center my-2">
+  </div>
+  <input type="text" id="myInput" onkeyup="myFunction()" placeholder="Chercher par noms.." style="margin-bottom: 15px;">
+
+  <table id="inputsTable" class="table table-striped" style="width: 100%">
+    <thead  style="background-color: #7F123E;">
+      <tr style="color: aliceblue;">
+        
+        <th>Produit</th>
+        <th>Date</th>
+        <th>Unité</th>
+        <th>Quantité entrée</th>
+        <th>Provenance</th>
+        <th>Numéro de Contenaire</th>
+        <th>Bon de Réception</th>
+        <th>Commentaires</th>
+        <th>Chantier</th>
+        <th>Code</th>
+      </tr>
+    </thead>
+     <tbody>
+     {% for i in site_input_data %}
+     <tr>
+       
+       <td>{{ i.product }}</td>
+       <td>{{ i.date }}</td>
+       <td>{{ i.unity }}</td>
+       <td>{{ i.qty_input }}</td>
+       <td>{{ i.source }}</td>
+       <td>{{ i.numeroCon }}</td>
+       <td>{{ i.bonrecept }}</td>
+       <td>{{ i.comments }}</td>
+       <td>{{ i.construction_site }}</td>
+      <td>{{ i.id }}</td>
+     </tr>
+     {% endfor %}
+     </tbody>
+  </table>
+  <a href={% url 'export-inputs' %} type="button" class="btn mx-1" style="background-color: #5E0129; color:aliceblue;">
+    Export
+  </a>
+</div>
+<script>
+  function myFunction() {
+    // Declare variables
+    var input, filter, table, tr, td, i, txtValue;
+    input = document.getElementById("myInput");
+    filter = input.value.toUpperCase();
+    table = document.getElementById("inputsTable");
+    tr = table.getElementsByTagName("tr");
+  
+    // Loop through all table rows, and hide those who don't match the search query
+    for (i = 0; i < tr.length; i++) {
+      td = tr[i].getElementsByTagName("td")[0];
+      if (td) {
+        txtValue = td.textContent || td.innerText;
+        if (txtValue.toUpperCase().indexOf(filter) > -1) {
+          tr[i].style.display = "";
+        } else {
+          tr[i].style.display = "none";
+        }
+      }
+    }
+  }
+  </script>
+{% endblock content %}

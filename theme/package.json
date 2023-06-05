@@ -1,0 +1,10 @@
+{
+  "dependencies": {
+    "bootstrap": "^5.2.3",
+    "jquery": "^3.6.4",
+    "popper.js": "^1.16.1"
+  },
+  "devDependencies": {
+    "node-sass": "^8.0.0"
+  }
+}

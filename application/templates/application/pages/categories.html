@@ -1,0 +1,52 @@
+{% extends 'application/base.html' %}
+{% block content %}
+
+<div class="container">
+  <div class="d-flex justify-content-center my-2">
+    
+
+    <a href={% url 'create-category' %} type="button" class="btn btn-primary" style="background-color: #5E0129; color:aliceblue;">
+      Ajouter Categorie
+    </a>
+
+  </div>
+  <table id="categoryTable" class="table table-striped" style="width: 100%">
+    <thead>
+      <tr>
+        <th>Id</th>
+        <th>Désignation</th>
+        <th>Action</th>
+      </tr>
+    </thead>
+  </table>
+</div>
+
+<script>
+  $(document).ready(function () {
+
+    var table = $("#categoryTable").DataTable({
+      processing: true,
+      serverSide: true,
+      ajax: "{% url 'category_list_json' %}",
+      columns: [{ data: "id" }, { data: "name" }, { data: "action",searchable:false }],
+      language: {
+        processing: `Please Wait...`,
+      },
+      columnDefs: [
+        {
+          targets: -1, // Add column to the end of the table
+          data: null, // Use the row data
+          defaultContent: "<button>Edit</button><button>Delete</button>",
+          // Render function to create the action buttons
+          render: function (data, type, row, meta) {
+            return `<a href='/categories/edit/${row.id}' class='btn' style = "background-color: #D2B15B; color: antiquewhite;" >Modifier</a>
+            <button onclick="deleteHandler('/categories/delete/${row.id}')" class='btn' style = "background-color: #5E0129; color: antiquewhite;">Supprimer</button>`;
+          },
+        },
+      ],
+    });
+
+  });
+</script>
+
+{% endblock content %}

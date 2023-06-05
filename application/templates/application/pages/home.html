@@ -1,0 +1,56 @@
+{% extends 'application/base.html' %}
+{% block content %}
+{% load static %}
+  <body class="backimg">
+    
+
+<div class="container">
+  <div class="d-flex justify-content-center my-2">
+    <img src="{% static 'images/2.png' %}" width="100px" height="auto" alt="logo" class="bg obj-fit-cover">
+  </div>
+  <div class="d-flex justify-content-center my-2">
+    <h1 class="" style="margin-bottom: 40px;font-size:30px; font-weight: bold; color: aliceblue; text-decoration: none ; font-family: 'Gill Sans', 'Gill Sans MT' sans-serif;">Chantiers en cours</h1>
+  </div>
+
+  <div class="d-flex justify-content-center my-2">
+    <ul class="text-primary fs-3" style="height:60vh;overflow-y: auto;">
+        {% if sites %}
+        {% for site in sites %}
+        <div class="d-flex justify-content-between">
+          <li> <a class="mx-2" href={% url 'dashboard-constructionsite' id=site.id %} style=" text-decoration: underline; font-weight: bold;color: aliceblue;" type="button">{{site.name}}</a></li>
+          <div class="d-flex mx-2 justify-content-between">
+          <a class="mx-2 btn" style = "margin-bottom:15px;background-color: #D2B15B; color: antiquewhite;" href={% url 'edit-constructionsite' id=site.id %}>Modifier</a>
+          <button class="mx-2 btn " onclick="deleteHandler(`{% url 'delete-constructionsite' id=site.id %}` )" style="background-color: #5E0129; width: 100px; color: antiquewhite;margin-bottom:15px;">Supprimer</button>
+          </div>
+        </div>
+        {% endfor %}
+        {% else %}
+        <div class="d-flex justify-content-center my-2">
+            <h1 class="text-danger fs-4">Pas de chantiers, Ajouter</h1>
+          </div>
+        {% endif %}
+    </ul>
+  </div>
+  <!--  <div class="d-flex justify-content-evenly my-2">
+    <a href={% url 'create-constructionsite' %} type="button" class="btn btn-primary" >
+      Ajouter un chantier
+    </a>
+
+    <a href={% url 'users' %} type="button" class="btn btn-primary ">
+      Utilisateurs
+     </a>
+  
+      <a href={% url 'create-user' %} type="button" class="btn btn-primary ">
+       Créer un Utilisateur
+      </a>
+  </div> -->
+
+
+</div>
+<style>.backimg {
+  background-image: url('https://immobilier.sabluxgroup.com/wp-content/uploads/2023/04/2.jpg');
+  
+}</style>
+
+</body>
+{% endblock content %}

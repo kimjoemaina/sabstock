@@ -1,0 +1,20 @@
+
+
+{% extends 'application/base.html' %}
+{% block content %}
+
+{{ form.media.css }}
+
+{% load crispy_forms_tags %}
+<div class="container">
+    <form id="stockForm" method="POST">
+      {% csrf_token %}
+      {{form|crispy}}
+      <button type="submit" class="btn btn-primary">Sauvegarder</button>
+    </form>
+
+</div>
+
+
+{{ form.media.js }}
+{% endblock content %}

@@ -1,0 +1,29 @@
+{% extends 'application/base.html' %}
+{% block content %}
+{% load crispy_forms_tags %}
+{{ form.media.css }}
+<div class="container">
+  <p class="d-flex justify-content-center my-2" style="color:#7F123E; font-family: 'Gill Sans', 'Gill Sans MT', sans-serif;font-size: larger;"> NB: Pour qu'un utilisateur puisse accéder au chantier qui lui ai attribué il faut qu'il puisse "consulter la liste des chantiers"</p> 
+
+
+  <div class="d-flex justify-content-center my-2">
+    <h1 class="text-uppercase fs-1" style="color: #5E0129;"><u>Ajouter un utilisateur</u></h1>
+  </div>
+  <div class="d-flex justify-content-center my-2">
+    <div class="container">
+
+      <form id="userForm" method="POST">
+        {% csrf_token %}
+        {{form|crispy}}
+        <button type="submit" class="btn"style="background-color: #5E0129; color:aliceblue;">Sauvegarder</button>
+      </form>
+  
+  </div>
+  </div>
+
+</div>
+
+
+{{ form.media.js }}
+
+{% endblock content %}

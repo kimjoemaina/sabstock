@@ -1,0 +1,60 @@
+{% extends 'application/base.html' %}
+{% block content %}
+
+<div class="container">
+  <div class="d-flex justify-content-center my-2">
+  
+  </div>
+  <table id="outputsTable" class="table table-striped" style="width: 100%">
+    <thead>
+      <tr>
+        <th>Id</th>
+        <th>Chantier</th>
+        <th>Date</th>
+        <th>Produit</th>
+        <th>Unité</th>
+        <th>Quantité Sortie</th>
+        <th>Niveau</th>
+        <th>Appartement</th>
+        <th>N° Bon de Sortie</th>
+        <th>Action</th>
+      </tr>
+    </thead>
+  </table>
+  <div class="d-flex justify-content-center my-2">
+    
+    <a href={% url 'export-outputs' %} type="button" class="btn mx-1" style="background-color: #5E0129; color:aliceblue;">
+      Export
+    </a>
+
+  </div>
+</div>
+
+<script>
+  $(document).ready(function () {
+
+    var table = $("#outputsTable").DataTable({
+      processing: true,
+      serverSide: true,
+      ajax: "{% url 'outputs_list_json' %}",
+      columns: [{ data: "id" }, { data: "construction_site" }, { data: "date" }, { data: "product" }, { data: "unity" }, { data: "qty_output" }, { data: "level" }, { data: "appartment" }, { data: "exit_coupon" }, { data: "action",searchable:false }],
+      language: {
+        processing: `Please Wait...`,
+      },
+      columnDefs: [
+        {
+          targets: -1, // Add column to the end of the table
+          data: null, // Use the row data
+          defaultContent: "<button>Edit</button><button>Delete</button>",
+          // Render function to create the action buttons
+          render: function (data, type, row, meta) {
+            return `<a href='/outputs/edit/${row.id}' class='btn 'style = "background-color: #D2B15B; color: antiquewhite;margin-bottom:20px;">Modifier</a><button onclick="deleteHandler('/outputs/delete/${row.id}')" class='btn' style = "background-color: #5E0129; color: antiquewhite;" >Supprimer</button>`;
+          },
+        },
+      ],
+    });
+
+  });
+</script>
+
+{% endblock content %}

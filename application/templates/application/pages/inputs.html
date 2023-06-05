@@ -1,0 +1,65 @@
+{% extends 'application/base.html' %}
+{% block content %}
+
+<div class="container">
+  <div class="d-flex justify-content-center my-2">
+    
+
+  </div>
+  <table id="inputsTable" class="table table-striped" style="width: 100%;">
+    <thead>
+      <tr>
+        <th>Id</th>
+        <th>Chantier</th>
+        <th>Date</th>
+        <th>Categorie</th>
+        <th>Produit</th>
+        <th>Unité</th>
+        <th>Quantité Entrée</th>
+        <th>Source</th>
+        <th>Numéro de Contenaire</th>
+        <th>N de Bon de réception</th>
+        <th>Commentaires</th>
+        <th>Action</th>
+      </tr>
+    </thead>
+  </table>
+
+  <div class="d-flex justify-content-center my-2">
+    
+    <a href={% url 'export-inputs' %} type="button" class="btn mx-1"style="background-color: #5E0129; color:aliceblue;">
+      Export
+    </a>
+
+  </div>
+</div>
+
+<script>
+  $(document).ready(function () {
+
+    var table = $("#inputsTable").DataTable({
+      processing: true,
+      serverSide: true,
+      ajax: "{% url 'inputs_list_json' %}",
+      columns: [{ data: "id" },{ data: "construction_site" }, { data: "date" },  { data: "category" }, { data: "product" }, { data: "unity" }, { data: "qty_input" }, { data: "source" },{ data: "numeroCon" },{ data: "bonrecept" }, { data: "comments" }, { data: "action",searchable:false }],
+      language: {
+        processing: `Please Wait...`,
+      },
+      columnDefs: [
+        {
+          targets: -1, // Add column to the end of the table
+          data: null, // Use the row data
+          defaultContent: "<button>Edit</button><button>Delete</button>",
+          // Render function to create the action buttons
+          render: function (data, type, row, meta) {
+            return `<a href='/inputs/edit/${row.id}' class='btn' type="button" style = "background-color: #D2B15B; color: antiquewhite;margin-bottom:20px;">Modifier</a>
+            <button onclick="deleteHandler('/inputs/delete/${row.id}')" class='btn'style = "background-color: #5E0129; color: antiquewhite;">Supprimer</button>`;
+          },
+        },
+      ],
+    });
+
+  });
+</script>
+
+{% endblock content %}

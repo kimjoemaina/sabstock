@@ -1,0 +1,15 @@
+{% extends 'application/base.html' %}
+{% block content %}
+
+{% load crispy_forms_tags %}
+<div class="container">
+    <form id="categoryForm" method="POST">
+      {% csrf_token %}
+      {{form|crispy}}
+      <button type="submit" class="btn"style="background-color: #5E0129; color:aliceblue;">Sauvegarder</button>
+    </form>
+
+</div>
+
+
+{% endblock content %}

@@ -1,0 +1,34 @@
+{% extends 'application/base.html' %}
+
+
+{% block content %}
+{% load crispy_forms_tags %}
+
+{{ form.media.css }}
+
+<div class="container">
+  <div class="d-flex justify-content-center my-2">
+    <h1 class="text-uppercase fs-1" style="color: #5E0129;"><u>Accés au chantier</u></h1>
+  </div>
+  <div class="d-flex justify-content-center my-2">
+    <div class="container">
+      <form id="userForm" method="POST">
+        {% csrf_token %}
+        {% comment %} {{ form.as_p }} {% endcomment %}
+        {{form|crispy}}
+        <button type="submit" class="btn" style="background-color: #5E0129; color:aliceblue;">Sauvegarder</button>
+      </form>
+    </div>
+  </div>
+</div>
+
+{{ form.media.js }}
+{% comment %} <script>
+  $( document ).ready(function() {
+    
+    console.log( "ready!" );
+    $('select').select2();
+    
+});
+</script> {% endcomment %}
+{% endblock content %}

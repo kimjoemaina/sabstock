@@ -1,0 +1,87 @@
+{% extends 'application/base.html' %}
+{% block content %}
+{% load mathoperations %}
+
+<style>
+  .table-wrapper {
+    height: 70vh;
+    overflow-y: auto;
+  }
+</style>
+<div class="container">
+  <div class="d-flex justify-content-center my-2">
+    <h1 class="text-primary text-uppercase fs-1">
+      <u style="text-decoration: none; font-weight: bold; color: #7F123E;"> Tableau de Bord {{site.name}}</u>
+    </h1>
+    
+  </div>
+  <div class="d-flex justify-content-center my-2">
+     <a href={% url 'constructionsite-input' site.id %} type="button" class="btn mx-1"style="background-color: #7F123E; color:aliceblue;">
+     Entrées
+    </a>
+
+    <a href={% url 'create-input' construction_site_id=site.id %} type="button" class="btn mx-1"style="background-color: #D2B15B; color:aliceblue;">
+      Ajouter Entrée
+    </a>
+    <a href={% url 'create-output' construction_site_id=site.id %} type="button" class="btn mx-1" style="background-color: #D2B15B; color:aliceblue;">
+      Ajouter Sortie
+    </a>
+
+    <a href={% url 'constructionsite-output' site.id %} type="button" class="btn mx-1" style="background-color: #7F123E; color:aliceblue;">
+     Sorties
+    </a>
+
+  </div>
+
+  <div class="d-flex justify-content-center my-4">
+    <div class="table-wrapper">
+      <table class="table">
+        <thead class="text-light" style="background-color: #7F123E;" >
+          <tr>
+            <th>Categorie</th>
+            <th>Reference</th>
+            <th>Produit</th>
+            <th>Etat</th>
+            <th>Niveau Stock Securite</th>
+            <th>Stock Initial</th>
+            <th>Cumul Entrée</th>
+            <th>Cumul Sortie</th>
+            <th>Stock Final</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for product in site.merge_input_output %}
+          <tr>
+           <td>{{product.category}}</td>
+            <td>{{product.reference}}</td>
+            <td>{{product.product_name}}</td>
+            
+            <td>{{product.stock_state|safe}}</td>
+            <td>{{product.stock_level_security}}</td>
+            <td>{{product.stinitial}}</td>
+            <td> {{product.stock_input}}</td>
+            <td> {{product.stock_output}}</td>
+            <td> {{ product.final_stock}}</td>
+           </tr>  
+            
+          
+          
+          
+          {% endfor %}
+        </tbody>
+      </table>
+      <a href={% url 'export-construction-site' construction_site_id=site.id %} type="button" class="btn mx-1 justify-content-center my-2"style="background-color: #7F123E; color:aliceblue;">
+      Export
+      </a>
+    </div>
+    
+  </div>
+    
+  <div class="d-flex justify-content-center my-2">
+    
+   
+
+  </div>
+</div>
+
+{% endblock content %}
